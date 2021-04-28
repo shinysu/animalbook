@@ -1,0 +1,23 @@
+<html>
+	<body>	
+        <canvas id="myCanvas" width="500" height="250"></canvas>	
+        <script>	
+        let image = new Image();
+        image.src = "images/cat.png";
+        let counter = 0,
+        frame_width = image.width/3,
+        frame_height = image.height/3;
+        image.onload = function() {
+            let canvas = document.getElementById("myCanvas");
+            let context = canvas.getContext("2d");
+            window.requestAnimationFrame(animate);
+            function animate() {
+                let frame = Math.floor(counter % 8);
+                context.drawImage(image, frame * frame_width, 0, frame_width, frame_height, 0, 0, frame_width, frame_height);
+                counter = counter + .25;
+                window.requestAnimationFrame(animate);
+                }
+        }
+        </script>
+    </body>
+</html>
