@@ -1,5 +1,13 @@
 let animals = ['deer', 'elephant', 'frog', 'kangaroo', 'lion', 'zebra']
 
+input = document.getElementById("msg_input")
+input.addEventListener("keyup", function(event) {
+    if (event.keyCode === 13) {
+        event.preventDefault();
+        document.getElementById("button").click();
+  }
+});
+
 function display_animal(){
     animalName = document.getElementById("msg_input").value.toLowerCase().trim();
     document.getElementById("msg_input").value = "";
@@ -38,8 +46,11 @@ function fillImageInCanvas(image){
 function displayNotFound(animalName){
     let canvas = document.getElementById("myCanvas");
     let context = canvas.getContext("2d");
+    window.addEventListener('resize', resizeCanvas, false);
+    window.addEventListener('orientationchange', resizeCanvas, false);
+    resizeCanvas(canvas)
     context.clearRect(0, 0, canvas.width, canvas.height);
-    context.font = "30px Arial";
+    context.font = "40px Arial";
     context.fillStyle = "#337ab7";
     text = animalName.charAt(0).toUpperCase() + animalName.substring(1, animalName.length) + " is not found"
     context.fillText(text, 10, 50);
