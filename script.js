@@ -99,7 +99,7 @@ function resizeCanvas(canvas) {
         let framex = Math.floor(counter % rows);
         let framey = 0;
         context.clearRect(0, 0, canvas.width, canvas.height);
-        context.drawImage(image, framex * frame_width, framey * frame_width, frame_width, frame_height, counter * 10, 0, frame_width, frame_height);
+        context.drawImage(image, framex * frame_width, framey * frame_width, frame_width, frame_height, counter * 10, canvas.height/2, canvas.width/3, canvas.height/3);
         counter = counter + .10;
         if (counter > (canvas.width-frame_width)/10) counter = 0;
         frameID = window.requestAnimationFrame(animate);
