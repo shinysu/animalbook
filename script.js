@@ -83,7 +83,6 @@ function resizeCanvas(canvas) {
     let ratio = Math.min(hratio, vratio)
     var centerShiftX = ( canvas.width - image.width*ratio ) / 2;
     var centerShiftY = ( canvas.height - image.height*ratio ) / 2; 
-    console.log(image.src);
     context.clearRect(0, 0, canvas.width, canvas.height);
     context.drawImage(image, 0, 0, image.width, image.height, centerShiftX, centerShiftY, image.width*ratio, image.height*ratio);
   }
@@ -94,6 +93,7 @@ function resizeCanvas(canvas) {
     cols = 3
     frame_width = image.width / rows;
     frame_height = image.height / cols;
+    totalFrames = canvas.width / frame_width;
     window.requestAnimationFrame(animate);
     function animate() {
         let framex = Math.floor(counter % rows);
@@ -101,7 +101,7 @@ function resizeCanvas(canvas) {
         context.clearRect(0, 0, canvas.width, canvas.height);
         context.drawImage(image, framex * frame_width, framey * frame_width, frame_width, frame_height, counter * 10, 0, frame_width, frame_height);
         counter = counter + .10;
-        if (counter > 50) counter = 0;
+        if (counter > (canvas.width-frame_width)/10) counter = 0;
         frameID = window.requestAnimationFrame(animate);
     }
   }
