@@ -94,14 +94,17 @@ function resizeCanvas(canvas) {
     frame_width = image.width / rows;
     frame_height = image.height / cols;
     totalFrames = canvas.width / frame_width;
+    picWidth = canvas.width/3;
+    scale = frame_width / picWidth
+    picHeight = frame_height / scale
     window.requestAnimationFrame(animate);
     function animate() {
         let framex = Math.floor(counter % rows);
         let framey = 0;
         context.clearRect(0, 0, canvas.width, canvas.height);
-        context.drawImage(image, framex * frame_width, framey * frame_width, frame_width, frame_height, counter * 10, canvas.height/2, canvas.width/3, canvas.height/3);
+        context.drawImage(image, framex * frame_width, framey * frame_width, frame_width, frame_height, counter * 10, canvas.height/2, picWidth, picHeight);
         counter = counter + .10;
-        if (counter > (canvas.width-frame_width)/10) counter = 0;
+        if (counter > (canvas.width-picWidth)/10) counter = 0;
         frameID = window.requestAnimationFrame(animate);
     }
   }
