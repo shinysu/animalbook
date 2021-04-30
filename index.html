@@ -34,8 +34,13 @@
                     <div class="message_input_wrapper">
                         <input id="msg_input" class="message_input" placeholder="" />
                     </div>
+                    <div class="send_voice" id="voice_button">
+                        <button type="button" id="btn_voice" class="btn btn-success" style="color:black" onclick="runSpeechRecognition();">
+                            <img src = "images/voice.png" width="100%">
+                        </button>
+                    </div>  
                     <div class="send_message" id="send_button">
-                        <button type="button" id="button" class="btn btn-success" style="color:black" onclick="display_animal();">Send</button>
+                        <button type="button" id="btn_send" class="btn btn-success" style="color:black" onclick="display_animal();">Send</button>
                     </div>
                 </div>
             </div>

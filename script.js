@@ -1,44 +1,21 @@
-let staticAnimals = ['deer', 'elephant', 'frog', 'kangaroo', 'lion', 'zebra'];
-let movingAnimals = ['cat', 'dog'];
-let frameID;
+let animals = ['deer', 'elephant', 'frog', 'kangaroo', 'lion', 'zebra']
+
 input = document.getElementById("msg_input")
 input.addEventListener("keyup", function(event) {
     if (event.keyCode === 13) {
         event.preventDefault();
-        document.getElementById("button").click();
+        document.getElementById("btn_send").click();
   }
 });
 
 function display_animal(){
-    animalName = document.getElementById("msg_input").value.toLowerCase().trim().split(" ")[0];
-    console.log(animalName);
+    animalName = document.getElementById("msg_input").value.toLowerCase().trim();
     document.getElementById("msg_input").value = "";
-    if (frameID){
-        window.cancelAnimationFrame(frameID);
-    }
-    if (staticAnimals.includes(animalName)){
+    if (animals.includes(animalName)){
         displayImage(animalName)
-    }
-    else if(movingAnimals.includes(animalName)){
-        animateAnimal(animalName)
     }
     else{
         displayNotFound(animalName)
-    }
-}
-
-function animateAnimal(animalName){
-    let image = new Image();
-    image.src = "images/"+animalName+".png";
-    image.onload = function(){
-        let canvas = document.getElementById("myCanvas");
-        let context = canvas.getContext("2d");
-        window.addEventListener('resize', resizeCanvas, false);
-        window.addEventListener('orientationchange', resizeCanvas, false);
-        resizeCanvas(canvas)
-        context.fillStyle = '#f8f8f8';
-        context.fillRect(0, 0, canvas.width, canvas.height);
-        animateImage(canvas, context, image)
     }
 }
 
@@ -46,16 +23,24 @@ function displayImage(animalName){
     let image = new Image();
     image.src = "images/"+animalName+".jpg";
     image.onload = function(){
-        let canvas = document.getElementById("myCanvas");
-        let context = canvas.getContext("2d");
-        window.addEventListener('resize', resizeCanvas, false);
-        window.addEventListener('orientationchange', resizeCanvas, false);
-        resizeCanvas(canvas)
-        context.fillStyle = '#f8f8f8';
-        context.fillRect(0, 0, canvas.width, canvas.height);
-        showImage(canvas, context, image)
+        fillImageInCanvas(image)
     }
     console.log(animalName);
+}
+
+function fillImageInCanvas(image){
+    let canvas = document.getElementById("myCanvas");
+    let context = canvas.getContext("2d");
+    window.addEventListener('resize', resizeCanvas, false);
+    window.addEventListener('orientationchange', resizeCanvas, false);
+    resizeCanvas(canvas)
+    context.fillStyle = '#f8f8f8';
+    context.fillRect(0, 0, canvas.width, canvas.height);
+    var hratio = canvas.width / image.width    ;
+    var vratio = canvas.height / image.height  ;
+    var centerShiftX = ( canvas.width - image.width*hratio ) / 2;
+    var centerShiftY = ( canvas.height - image.height*vratio ) / 2; 
+    context.drawImage(image, 0, 0, image.width, image.height, centerShiftX, centerShiftY, image.width*hratio, image.height*vratio);
 }
 
 function displayNotFound(animalName){
@@ -76,35 +61,37 @@ function resizeCanvas(canvas) {
     canvas.height = window.innerHeight;
   }
 
-  function showImage(canvas, context, image){
-    
-    var hratio = canvas.width / image.width    ;
-    var vratio = canvas.height / image.height  ;
-    let ratio = Math.min(hratio, vratio)
-    var centerShiftX = ( canvas.width - image.width*ratio ) / 2;
-    var centerShiftY = ( canvas.height - image.height*ratio ) / 2; 
-    context.clearRect(0, 0, canvas.width, canvas.height);
-    context.drawImage(image, 0, 0, image.width, image.height, centerShiftX, centerShiftY, image.width*ratio, image.height*ratio);
-  }
+  function runSpeechRecognition() {
+   // var output = document.getElementById("output");
+    //var action = document.getElementById("action");
+    // new speech recognition object
+    var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    var recognition = new SpeechRecognition();
 
-  function animateImage(canvas, context, image){
-    let counter = 0;
-    rows = 3
-    cols = 3
-    frame_width = image.width / rows;
-    frame_height = image.height / cols;
-    totalFrames = canvas.width / frame_width;
-    picWidth = canvas.width/3;
-    scale = frame_width / picWidth
-    picHeight = frame_height / scale
-    window.requestAnimationFrame(animate);
-    function animate() {
-        let framex = Math.floor(counter % rows);
-        let framey = 0;
-        context.clearRect(0, 0, canvas.width, canvas.height);
-        context.drawImage(image, framex * frame_width, framey * frame_width, frame_width, frame_height, counter * 10, canvas.height/2, picWidth, picHeight);
-        counter = counter + .10;
-        if (counter > (canvas.width-picWidth)/10) counter = 0;
-        frameID = window.requestAnimationFrame(animate);
+    // This runs when the speech recognition service starts
+    recognition.onstart = function() {
+        document.getElementById('btn_voice').style.backgroundColor = '#67c067';
+     //   action.innerHTML = "<small>listening, please speak...</small>";
+    };
+    
+    recognition.onspeechend = function() {
+    //    action.innerHTML = "<small>stopped listening, hope you are done...</small>";
+        recognition.stop();
+        document.getElementById('btn_voice').style.backgroundColor = '#ffffff';
     }
-  }
+  
+    recognition.onresult = function(event) {
+        var animalName = event.results[0][0].transcript.toLowerCase().trim();
+       // var confidence = event.results[0][0].confidence;
+        console.log(animalName);
+     //   output.classList.remove("hide");
+     if (animals.includes(animalName)){
+        displayImage(animalName)
+    }
+    else{
+        displayNotFound(animalName)
+    }
+    };
+  
+    recognition.start();
+}

@@ -81,7 +81,7 @@
     height: calc(100% - 93%);
     /* border-radius: 25px; */
     border: 1px solid #bcbdc0;
-    width: calc(100% - 120px);
+    width: calc(100% - 180px);
     position: relative;
     padding: 0 20px;
   }
@@ -107,15 +107,25 @@
     text-align: center;
     float: right;
   }
-  .bottom_wrapper .send_message:hover {
-    color: #dddddd;
-    background-color: #dddddd; 
+  
+  .bottom_wrapper .send_voice {
+    width: 50px;
+    height: calc(100% - 93%);
+    display: inline-block;
+    /* border-radius: 50px;
+    background-color: #ffffff;
+    border: 2px solid #a3d063;
+    color: #fff; */
+    cursor: pointer;
+    /* transition: all 0.2s linear; */
+    text-align: center;
+    float: right;
   }
   
   .btn-success {
     font-family: Raleway-SemiBold;
     font-size: 18px;
-    color: rgba(103, 192, 103, 0.75);
+    
     letter-spacing: 1px;
     line-height: 50%;
     border: 2px solid rgba(103, 192, 103, 0.75);
@@ -128,8 +138,14 @@
   
   .btn-success:hover {
     color: #FFF;
-    background: #dddddd ;
-    border: 2px solid rgb(103, 192, 103, 0.75);
+    background: #fff ;
+    border: 2px solid rgba(103, 192, 103, 0.75);
+  }
+
+  .btn-success:focus {
+    color: #FFF;
+    background: #fff ;
+    border: 2px solid rgba(103, 192, 103, 0.75);
   }
   
   .bottom_wrapper .send_message .text {
@@ -138,6 +154,14 @@
     display: inline-block;
     line-height: 48px;
   }
+
+  .bottom_wrapper .send_voice .text {
+    font-size: 18px;
+    font-weight: 300;
+    display: inline-block;
+    line-height: 48px;
+  }
+
   #myCanvas{
     width: 100%; 
     height: 100%;
