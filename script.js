@@ -71,6 +71,7 @@ function resizeCanvas(canvas) {
     // This runs when the speech recognition service starts
     recognition.onstart = function() {
         document.getElementById('btn_voice').style.backgroundColor = '#67c067';
+        document.getElementById("msg_input").value = "listening...";
      //   action.innerHTML = "<small>listening, please speak...</small>";
     };
     
@@ -78,10 +79,15 @@ function resizeCanvas(canvas) {
     //    action.innerHTML = "<small>stopped listening, hope you are done...</small>";
         recognition.stop();
         document.getElementById('btn_voice').style.backgroundColor = '#ffffff';
+        
     }
   
     recognition.onresult = function(event) {
         var animalName = event.results[0][0].transcript.toLowerCase().trim();
+        document.getElementById("msg_input").value = animalName;
+        setTimeout(function(){
+            document.getElementById("msg_input").value = '';
+        }, 3000);
        // var confidence = event.results[0][0].confidence;
         console.log(animalName);
      //   output.classList.remove("hide");
